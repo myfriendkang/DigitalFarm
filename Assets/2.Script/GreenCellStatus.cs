@@ -112,7 +112,7 @@ public class GreenCellStatus : MonoBehaviour {
         display[1].GetComponentInChildren<Text>().text = "Date  : " + cellInfo.GetDate();
         display[2].GetComponentInChildren<Text>().text = "Water : " + cellInfo.GetWater();
         display[3].GetComponentInChildren<Text>().text = "PH    : " + cellInfo.GetPH();
-        display[4].GetComponentInChildren<Text>().text = "Sun   : " + cellInfo.GetSun();
+        display[4].GetComponentInChildren<Text>().text = "Nutrient   : " + cellInfo.GetSun();
         if (selectCell == false)
         {
             selectCell = true;
@@ -163,5 +163,4 @@ public class GreenCellStatus : MonoBehaviour {
     {
         cellInfo.SetSunLight(nut);
     }
-   
 }

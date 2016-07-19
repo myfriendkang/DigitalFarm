@@ -14,6 +14,7 @@ public class CellController : MonoBehaviour {
     int ph;
     int nutrient;
     int value;
+    //values? git test
     // Use this for initialization
     void Start() {
         water = 0;

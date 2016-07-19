@@ -13,14 +13,12 @@ public class CellController : MonoBehaviour {
     int water;
     int ph;
     int nutrient;
-    int value;
     //values? git test
     // Use this for initialization
     void Start() {
         water = 0;
         ph = 0;
         nutrient = 0;
-        value = 0;
     }
 
     // Update is called once per frame

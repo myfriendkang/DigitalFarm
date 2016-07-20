@@ -119,7 +119,6 @@ public class GreenCellStatus : MonoBehaviour {
 
     public void OnGreenCellClick()
     {
-		Debug.Log (cellInfo.GetID ());
 		cameraManager.GetComponent<ControlCamera> ().FocusObj (plantID);
 		display[0].GetComponentInChildren<Text>().text = "Name  : " + cellInfo.GetName();
         display[1].GetComponentInChildren<Text>().text = "Date  : " + cellInfo.GetDate();

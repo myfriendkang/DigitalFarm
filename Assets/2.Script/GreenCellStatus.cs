@@ -13,16 +13,20 @@ public class GreenCellStatus : MonoBehaviour {
         private int _water;
         private int _ph;
         private int _sun;
+		private int _id;
 
-        public CellInfo(string name, string date, int water, int phLevel, int sunLight)
+		public CellInfo(string name, string date, int water, int phLevel, int sunLight, int id)
         {
             _name = name;
             _date = date;
             _water = water;
             _ph = phLevel;
             _sun = sunLight;
+			_id = id;
         }
-        
+		public void SetID(int id){
+			_id = id;
+		}
         public void SetName(string str)
         {
             _name = str;
@@ -64,6 +68,9 @@ public class GreenCellStatus : MonoBehaviour {
         {
             return _sun;
         }
+		public int GetID(){
+			return _id;
+		}
     }
     #endregion
     public string nameStr;
@@ -71,7 +78,10 @@ public class GreenCellStatus : MonoBehaviour {
     public int waterLevel;
     public int phLevel;
     public int sunLevel;
+	public int plantID;
+
     public InputField[] display;
+	public GameObject cameraManager;
     /*
      *display[0] = Name
      *display[1] = Date
@@ -85,7 +95,7 @@ public class GreenCellStatus : MonoBehaviour {
      *images[2] = clicked
      */
      
-    CellInfo cellInfo = new CellInfo("_empty", "none", 0, 0, 0);
+    CellInfo cellInfo = new CellInfo("_empty", "none", 0, 0, 0, 0);
     public bool selectCell = false;
     // Use this for initialization
     void Start () {
@@ -95,6 +105,7 @@ public class GreenCellStatus : MonoBehaviour {
         cellInfo.SetPH(phLevel);
         cellInfo.SetSunLight(sunLevel);
         cellInfo.SetWater(waterLevel);
+		cellInfo.SetID (plantID);
     }
 	
 	// Update is called once per frame
@@ -108,7 +119,9 @@ public class GreenCellStatus : MonoBehaviour {
 
     public void OnGreenCellClick()
     {
-        display[0].GetComponentInChildren<Text>().text = "Name  : " + cellInfo.GetName();
+		Debug.Log (cellInfo.GetID ());
+		cameraManager.GetComponent<ControlCamera> ().FocusObj (plantID);
+		display[0].GetComponentInChildren<Text>().text = "Name  : " + cellInfo.GetName();
         display[1].GetComponentInChildren<Text>().text = "Date  : " + cellInfo.GetDate();
         display[2].GetComponentInChildren<Text>().text = "Water : " + cellInfo.GetWater();
         display[3].GetComponentInChildren<Text>().text = "PH    : " + cellInfo.GetPH();

@@ -175,7 +175,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &81236576
 RectTransform:
   m_ObjectHideFlags: 0
@@ -544,7 +544,12 @@ MonoBehaviour:
   - {fileID: 711858618}
   - {fileID: 668085443}
   - {fileID: 1709976011}
+  plantInfo:
+  - {fileID: 387317969}
+  - {fileID: 1758272594}
+  - {fileID: 1575810290}
   cameraManager: {fileID: 1527819899}
+  cellInfoDisplay: {fileID: 81236575}
   images:
   - {fileID: 21300000, guid: 50971df889b011743a955708c6998d64, type: 3}
   - {fileID: 21300000, guid: 30d38cadffc377a4f88e669aa71c4d81, type: 3}
@@ -3696,7 +3701,12 @@ MonoBehaviour:
   - {fileID: 711858618}
   - {fileID: 668085443}
   - {fileID: 1709976011}
+  plantInfo:
+  - {fileID: 387317969}
+  - {fileID: 1758272594}
+  - {fileID: 1575810290}
   cameraManager: {fileID: 1527819899}
+  cellInfoDisplay: {fileID: 81236575}
   images:
   - {fileID: 21300000, guid: 50971df889b011743a955708c6998d64, type: 3}
   - {fileID: 21300000, guid: 30d38cadffc377a4f88e669aa71c4d81, type: 3}
@@ -4055,7 +4065,12 @@ MonoBehaviour:
   - {fileID: 711858618}
   - {fileID: 668085443}
   - {fileID: 1709976011}
+  plantInfo:
+  - {fileID: 387317969}
+  - {fileID: 1758272594}
+  - {fileID: 1575810290}
   cameraManager: {fileID: 1527819899}
+  cellInfoDisplay: {fileID: 81236575}
   images:
   - {fileID: 21300000, guid: 50971df889b011743a955708c6998d64, type: 3}
   - {fileID: 21300000, guid: 30d38cadffc377a4f88e669aa71c4d81, type: 3}
@@ -5072,6 +5087,14 @@ MonoBehaviour:
   mainCamera: {fileID: 860008517}
   targetObjs: []
   smoothTime: 0.3
+  images:
+  - {fileID: 21300000, guid: ee51adcb909724edd9c2024ea36a8967, type: 3}
+  - {fileID: 21300000, guid: 189b47a4e061b438f805be86ef66a210, type: 3}
+  - {fileID: 21300000, guid: eb0b6423446c240a98fa12b3dcbddd5f, type: 3}
+  - {fileID: 21300000, guid: 12cc32ec70672494d9ac9f90014fcb49, type: 3}
+  - {fileID: 21300000, guid: 32b3172f10c6f410ea7056f0e66b627b, type: 3}
+  displayInfo: {fileID: 81236575}
+  placeholderImage: {fileID: 1421226917}
 --- !u!4 &1527819901
 Transform:
   m_ObjectHideFlags: 0
@@ -6568,7 +6591,12 @@ MonoBehaviour:
   - {fileID: 711858618}
   - {fileID: 668085443}
   - {fileID: 1709976011}
+  plantInfo:
+  - {fileID: 387317969}
+  - {fileID: 1758272594}
+  - {fileID: 1575810290}
   cameraManager: {fileID: 1527819899}
+  cellInfoDisplay: {fileID: 81236575}
   images:
   - {fileID: 21300000, guid: 50971df889b011743a955708c6998d64, type: 3}
   - {fileID: 21300000, guid: 30d38cadffc377a4f88e669aa71c4d81, type: 3}
@@ -6784,7 +6812,12 @@ MonoBehaviour:
   - {fileID: 711858618}
   - {fileID: 668085443}
   - {fileID: 1709976011}
+  plantInfo:
+  - {fileID: 387317969}
+  - {fileID: 1758272594}
+  - {fileID: 1575810290}
   cameraManager: {fileID: 1527819899}
+  cellInfoDisplay: {fileID: 81236575}
   images:
   - {fileID: 21300000, guid: 50971df889b011743a955708c6998d64, type: 3}
   - {fileID: 21300000, guid: 30d38cadffc377a4f88e669aa71c4d81, type: 3}

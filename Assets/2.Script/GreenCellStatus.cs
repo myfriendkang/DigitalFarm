@@ -81,7 +81,9 @@ public class GreenCellStatus : MonoBehaviour {
 	public int plantID;
 
     public InputField[] display;
+	public InputField[] plantInfo;
 	public GameObject cameraManager;
+	public GameObject cellInfoDisplay;
     /*
      *display[0] = Name
      *display[1] = Date
@@ -119,15 +121,22 @@ public class GreenCellStatus : MonoBehaviour {
 
     public void OnGreenCellClick()
     {
+		
 		cameraManager.GetComponent<ControlCamera> ().FocusObj (plantID);
+		/*
 		display[0].GetComponentInChildren<Text>().text = "Name  : " + cellInfo.GetName();
         display[1].GetComponentInChildren<Text>().text = "Date  : " + cellInfo.GetDate();
         display[2].GetComponentInChildren<Text>().text = "Water : " + cellInfo.GetWater();
         display[3].GetComponentInChildren<Text>().text = "PH    : " + cellInfo.GetPH();
         display[4].GetComponentInChildren<Text>().text = "Nutrient   : " + cellInfo.GetSun();
+        */
+		plantInfo[0].GetComponentInChildren<Text>().text = "Water : " + cellInfo.GetWater();
+		plantInfo[1].GetComponentInChildren<Text>().text = "PH    : " + cellInfo.GetPH();
+		plantInfo[2].GetComponentInChildren<Text>().text = "Nutrient   : " + cellInfo.GetSun();
         if (selectCell == false)
         {
             selectCell = true;
+
         }
     }
 

@@ -58,12 +58,12 @@ public class UpdateMananger : MonoBehaviour
         var data = JsonUtility.FromJson<Data>(json);
         var treeData = JsonUtility.FromJson<Datum>(json);
        
-        Debug.Log(data.name); // Park
-        Debug.Log(data.level); // 10
+     //   Debug.Log(data.name); // Park
+       // Debug.Log(data.level); // 10
 
        foreach (var v in data.likes)
         {
-            Debug.Log(v);
+           // Debug.Log(v);
         }
     }
 }

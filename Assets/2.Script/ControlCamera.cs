@@ -43,7 +43,7 @@ public class ControlCamera : MonoBehaviour {
 	public void FocusObj(int objNum){
 		SetDisplayCoordinate (objNum);
 		SetImage (objNum);
-		if (objNum == 1) {
+		if (objNum == 1 ){
 			StopAllCoroutines ();
 			StartCoroutine ("ChangeMove",targetPosition1);
 		} else if (objNum == 2) {
@@ -71,13 +71,11 @@ public class ControlCamera : MonoBehaviour {
 			displayInfo.SetActive (false);
 		}
 		Vector3 targetPosition = pos;
-		//Debug.Log (Vector3.Distance (mainCamera.transform.position, targetPosition));
 		while(Vector3.Distance(mainCamera.transform.position, targetPosition)>0.05f){
 			if(Vector3.Distance(mainCamera.transform.position, targetPosition) < 20.0f){
 				displayInfo.SetActive (true);
 				_isReady = true;
 			}
-			Debug.Log (Vector3.Distance (mainCamera.transform.position, targetPosition));
 			mainCamera.transform.position = Vector3.Lerp(mainCamera.transform.position,targetPosition, Time.deltaTime * 2.5f);//Vector3.SmoothDamp (mainCamera.transform.position, targetPosition, ref velocity, smoothTime * Time.deltaTime);
 			yield return null;
 

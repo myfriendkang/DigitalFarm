@@ -6,11 +6,10 @@ public class SliderManager : MonoBehaviour {
 
 	public Image fillArea;
 	public Text numStr;
-	private float _phVal;
+	public float _phVal;
 	Color orange = new Color(255/255f,165/255f,0);
 	Color green = new Color (153/255f,255/255f,0);
-	Color darkBlue = new Color(0,0,102/255f);
-
+	Color darkBlue = new Color(0,0,102/255f); 
 	// Use this for initialization
 	void Start () {
 	}

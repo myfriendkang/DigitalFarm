@@ -34,9 +34,6 @@ public class CellManager : MonoBehaviour {
 		}
 	}
 
-	void Start () {
-	}
-		
 	void Update () { 
 		
 		CheckSelectOrNot ();

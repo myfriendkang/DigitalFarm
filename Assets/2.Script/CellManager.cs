@@ -6,7 +6,8 @@ public class CellManager : MonoBehaviour {
 
 	public GameObject[] greenCells;
 	private GameObject _greenCellSelected;
-	public bool selectCell = false;
+	public bool selectCell = false;  // for Camera Movement;
+	public bool clickCell = false;   // control Slider from Each Cell
 	private CellInfo[] cells = new CellInfo[5];
 
 
@@ -24,20 +25,28 @@ public class CellManager : MonoBehaviour {
 
 	void Awake(){
 	    //CellInfo(int id, string name, string date, int water, float ph, int ingredient, bool selected)
-		cells [0] = new CellInfo (1, "First",  "07.12.2016", 12, 3.4f,  10, false);
-		cells [1] = new CellInfo (2, "Second", "07.21.2016", 1,  1.0f,  3,  false);
-		cells [2] = new CellInfo (3, "Thrid",  "07.14.2016", 0,  6.7f,  12, false);
-		cells [3] = new CellInfo (4, "Fourth", "07.15.2016", 14, 9.0f,  1,  false);
-		cells [4] = new CellInfo (5, "Fifth",  "07.04.2016", 31, 13.5f, 43, false);
+		if (greenCells[0].GetComponent<DisplayCellStatus>().ph==0) {
+			cells [0] = new CellInfo (1, "First", "07.12.2016", 12, 3.4f, 10, false);
+			cells [1] = new CellInfo (2, "Second", "07.21.2016", 1, 1.0f, 3, false);
+			cells [2] = new CellInfo (3, "Thrid", "07.14.2016", 0, 6.7f, 12, false);
+			cells [3] = new CellInfo (4, "Fourth", "07.15.2016", 14, 9.0f, 1, false);
+			cells [4] = new CellInfo (5, "Fifth", "07.04.2016", 31, 13.5f, 43, false);
+		} else {
+			cells [0] = new CellInfo (1, "First", "07.12.2016", 12, greenCells[0].GetComponent<DisplayCellStatus>().ph, 10, false);
+			cells [1] = new CellInfo (2, "Second", "07.21.2016", 1, greenCells[1].GetComponent<DisplayCellStatus>().ph, 3, false);
+			cells [2] = new CellInfo (3, "Thrid", "07.14.2016", 0, greenCells[2].GetComponent<DisplayCellStatus>().ph, 12, false);
+			cells [3] = new CellInfo (4, "Fourth", "07.15.2016", 14, greenCells[3].GetComponent<DisplayCellStatus>().ph, 1, false);
+			cells [4] = new CellInfo (5, "Fifth", "07.04.2016", 31, greenCells[4].GetComponent<DisplayCellStatus>().ph, 43, false);
+		}
 		for (int i = 0; i <= 4; i++) {
 			greenCells [i].GetComponent<DisplayCellStatus> ().SetData (cells [i].Name, cells [i].Date, cells [i].ID, cells [i].Water, cells [i].Ingredient, cells [i].PH, cells [i].Select);
 		}
 	}
 
 	void Update () { 
-		
-		CheckSelectOrNot ();
 		DisplayPH ();
+		CheckSelectOrNot ();
+		
 	}
 	void CheckSelectOrNot(){
 		if (selectCell == true) {
@@ -52,9 +61,20 @@ public class CellManager : MonoBehaviour {
 	public void OnGreenCellClick()
 	{
 		cameraManager.GetComponent<ControlCamera> ().FocusObj (plantID);
+		clickCell = true;
 	}
 	public void SetTheSelectNumber(int num){
 		plantID = num;
+	}
+	float p;
+	public void OnSetButtonClick(){
+		p = sliderInfo.GetComponent<Slider> ().value;
+		//Debug.Log (plantID);
+		greenCells [plantID-1].GetComponent<DisplayCellStatus> ().SetPH (p);
+		cameraManager.GetComponent<ControlCamera> ().DefaultCamera ();
+	}
+	public void OnCancelButtonClick(){
+		cameraManager.GetComponent<ControlCamera> ().DefaultCamera ();
 	}
 
 }

@@ -40,6 +40,12 @@ public class ControlCamera : MonoBehaviour {
 		}
 		
 	}
+	public void DefaultCamera(){
+		DefaultCameraPos ();
+		if (displayInfo.activeSelf) {
+			displayInfo.SetActive (false);
+		}
+	}
 	public void FocusObj(int objNum){
 		SetDisplayCoordinate (objNum);
 		SetImage (objNum);

@@ -16,11 +16,11 @@ public class SliderManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+		this.gameObject.GetComponent<Slider> ().value = _phVal;
 	}
 
 	public void Slider(){
-		_phVal = this.gameObject.GetComponent<Slider> ().value;
+		_phVal = this.gameObject.GetComponent<Slider> ().value; 
 		numStr.text = _phVal.ToString ("f1");
 		if (_phVal >= 0.0f && _phVal <= 6.0f) {
 			fillArea.color = Color.Lerp (Color.red, orange, _phVal / 6);

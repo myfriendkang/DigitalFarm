@@ -16,6 +16,7 @@ public class DisplayCellStatus : MonoBehaviour {
 	public Sprite[] images;
 	public GameObject CellManager;
 	public InputField[] displayStatus;
+	public GameObject slider;
 
 	public void SetData(string strName, string strDate, int numID, int numWater, int numNutrient, float fPH, bool boolSelect){
 		name = strName;
@@ -25,6 +26,9 @@ public class DisplayCellStatus : MonoBehaviour {
 		nutrient = numNutrient;
 		ph = fPH;
 		selected = boolSelect;
+	}
+	public void SetPH(float _ph){
+		ph = _ph;
 	}
 	public void ShowDefault()
 	{
@@ -40,15 +44,15 @@ public class DisplayCellStatus : MonoBehaviour {
 	}
 
 	public void OnPlantClicked(){
-		CellManager.GetComponent<CellManager> ().SetTheSelectNumber (id);
-		CellManager.GetComponent<CellManager> ().selectCell = true;
+		//CellManager.GetComponent<CellManager> ().SetTheSelectNumber (id);
+		//CellManager.GetComponent<CellManager> ().selectCell = true;
+		slider.GetComponent<SliderManager> ()._phVal = ph;
 		ShowStatus ();
 	}
 	void ShowStatus(){
 		displayStatus [0].GetComponentInChildren<Text> ().text = "Water : " + water.ToString ();
 		displayStatus [1].GetComponentInChildren<Text> ().text = "Nutrient : " + nutrient.ToString ();
 		displayStatus [2].GetComponentInChildren<Text> ().text = "PH : " + ph.ToString ("f1");
-		Debug.Log (ph.ToString ("f1"));
 	}
 }
 

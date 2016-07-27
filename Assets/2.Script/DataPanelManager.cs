@@ -9,7 +9,12 @@ public class DataPanelManager : MonoBehaviour {
 	void Start () {
 
 	}
-	
+	void Update(){
+		if (Input.GetMouseButtonDown (1)) {
+			Debug.Log ("asdfaD");
+			CloseAllWindow ();
+		}
+	}
 	public void OnPlantInfoPanelClicked(){
 		if (!plantInfoPanel.activeSelf) {
 			observationPanel.SetActive (false);
@@ -21,6 +26,14 @@ public class DataPanelManager : MonoBehaviour {
 		if (!observationPanel.activeSelf) {
 			observationPanel.SetActive (true);
 			plantInfoPanel.SetActive (false);
+		}
+	}
+
+	void CloseAllWindow(){
+		if (observationPanel.activeSelf || plantInfoPanel.activeSelf) {
+			observationPanel.SetActive (false);
+			plantInfoPanel.SetActive (false);
+			Debug.Log ("dfadsf");
 		}
 	}
 }

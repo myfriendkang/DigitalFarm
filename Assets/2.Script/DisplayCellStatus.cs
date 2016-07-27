@@ -14,9 +14,11 @@ public class DisplayCellStatus : MonoBehaviour {
 	public float ph;
 	public bool selected;
 	public Sprite[] images;
-	public GameObject CellManager;
+	public GameObject cellManager;
 	public InputField[] displayStatus;
 	public GameObject slider;
+
+	public GameObject[] displayInfo;
 
 	public void SetData(string strName, string strDate, int numID, int numWater, int numNutrient, float fPH, bool boolSelect){
 		name = strName;
@@ -26,6 +28,14 @@ public class DisplayCellStatus : MonoBehaviour {
 		nutrient = numNutrient;
 		ph = fPH;
 		selected = boolSelect;
+	}
+	void setup(){
+		CloseDisplayPanel ();
+	}
+	void update(){
+		if (Input.GetMouseButtonDown (1)) {
+
+		}
 	}
 	public void SetPH(float _ph){
 		ph = _ph;
@@ -44,15 +54,36 @@ public class DisplayCellStatus : MonoBehaviour {
 	}
 
 	public void OnPlantClicked(){
-		//CellManager.GetComponent<CellManager> ().SetTheSelectNumber (id);
-		//CellManager.GetComponent<CellManager> ().selectCell = true;
 		slider.GetComponent<SliderManager> ()._phVal = ph;
 		ShowStatus ();
+		cellManager.GetComponent<CellManager> ().SetTheSelectNumber (id);
+		ShowPlantInfoDisplay ();
 	}
 	void ShowStatus(){
 		displayStatus [0].GetComponentInChildren<Text> ().text = "Water : " + water.ToString ();
 		displayStatus [1].GetComponentInChildren<Text> ().text = "Nutrient : " + nutrient.ToString ();
 		displayStatus [2].GetComponentInChildren<Text> ().text = "PH : " + ph.ToString ("f1");
 	}
+	void CloseDisplayPanel(){
+		if (displayInfo[0].activeSelf || displayInfo[1].activeSelf) {
+			for (int i = 0; i <= 1; i++) {
+				displayInfo [i].SetActive (false);
+			}
+		}
+	}
+	void ShowPlantInfoDisplay(){
+		displayInfo[0].SetActive (true);
+		displayInfo[1].SetActive (false);
+	}
+
+	public void SwapDisplayInfo(int from, int to){
+		if (displayInfo [from].activeSelf) {
+			displayInfo [from].SetActive (false);
+			displayInfo [to].SetActive (true);
+		}
+	}
+
+
+
 }
 

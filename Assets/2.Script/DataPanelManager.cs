@@ -1,27 +1,32 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class DataPanelManager : MonoBehaviour {
+	
 	public GameObject observationPanel;
 	public GameObject plantInfoPanel;
+	public Text myPlant_observation_txt;
+	public Text myPlant_plantInfo_txt;
+	public Text obser_plant_txt;
+	public Text obser_observ_txt;
 
-	// Use this for initialization
-	void Start () {
+	void Start(){
 
 	}
 	void Update(){
 		if (Input.GetMouseButtonDown (1)) {
-			Debug.Log ("asdfaD");
 			CloseAllWindow ();
 		}
 	}
+
 	public void OnPlantInfoPanelClicked(){
 		if (!plantInfoPanel.activeSelf) {
 			observationPanel.SetActive (false);
 			plantInfoPanel.SetActive (true);
 		}
-
 	}
+
 	public void OnObservationPanelClicked(){
 		if (!observationPanel.activeSelf) {
 			observationPanel.SetActive (true);
@@ -33,7 +38,6 @@ public class DataPanelManager : MonoBehaviour {
 		if (observationPanel.activeSelf || plantInfoPanel.activeSelf) {
 			observationPanel.SetActive (false);
 			plantInfoPanel.SetActive (false);
-			Debug.Log ("dfadsf");
 		}
 	}
 }

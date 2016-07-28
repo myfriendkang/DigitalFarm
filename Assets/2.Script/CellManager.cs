@@ -5,36 +5,31 @@ using UnityEngine.UI;
 public class CellManager : MonoBehaviour {
 
 	public GameObject[] greenCells;
-	private GameObject _greenCellSelected;
-	public bool selectCell = false;  // for Camera Movement;
-	public bool clickCell = false;   // control Slider from Each Cell
-	private CellInfo[] cells = new CellInfo[5];
-
-
 	public string nameStr;
 	public string dateStr;
 	public int waterLevel;
 	public int phLevel;
 	public int ingredientLevel;
 	public int plantID;
-
 	public InputField[] plantInfo;
 	public GameObject cameraManager;
 	public GameObject sliderInfo;
-
-	public GameObject islandItself;
-	private Animation anim;
-	bool animPlayed;
 	public GameObject[] alphaChanel;
 	public GameObject ctButton;
-	//public GameObject plantDisplay;
-	//public GameObject observationDisplay;
+	public GameObject islandItself;
 
+	public bool selectCell = false;  // for Camera Movement;
+	public bool clickCell = false;   // control Slider from Each Cell
+
+	private CellInfo[] cells = new CellInfo[5];
+	private GameObject _greenCellSelected;
+
+	string rePlay;
+	float p;
 
 
 	void Awake(){
-		anim = islandItself.GetComponent<Animation> ();
-		animPlayed = false;
+
 	    //CellInfo(int id, string name, string date, int water, float ph, int ingredient, bool selected)
 		if (greenCells[0].GetComponent<DisplayCellStatus>().ph==0) {
 			cells [0] = new CellInfo (1, "First", "07.12.2016", 12, 3.4f, 10, false);
@@ -58,30 +53,22 @@ public class CellManager : MonoBehaviour {
 		DisplayPH ();
 		//CheckSelectOrNot ();
 		if(Input.GetMouseButtonDown(1)){
-			ResetPos();
 			if (alphaChanel [1].activeSelf) {
-				SwapAlphaChannel (1, 0);
+				//SwapAlphaChannel (1, 0);
 				ctButton.GetComponent<Button> ().interactable = true;
 			}
 			if (selectCell == true) {
 				for (int i = 0; i < greenCells.Length; i++) {
 					if (i != (plantID-1)) {
-						Debug.Log (i);
 						greenCells [i].GetComponent<Button> ().interactable = true;
 					}
 				}
 				selectCell = false;
 			}
-			GameObject.Find ("ControlTower").GetComponent<CTManager> ().mgr.ShowMessageBox (0);
 		}
 		
 	}
-//	void CheckSelectOrNot(){
-//		if (selectCell == true) {
-//			cameraManager.GetComponent<ControlCamera> ().FocusObj (plantID);
-//			selectCell = false;
-//		}	
-//	}
+
 	void DisplayPH(){
 		float p = sliderInfo.GetComponent<Slider> ().value;
 		plantInfo [1].GetComponentInChildren<Text> ().text ="PH    : " + p.ToString("f1");
@@ -90,9 +77,7 @@ public class CellManager : MonoBehaviour {
 	public void OnGreenCellClick()
 	{
 		str= "Cell" + plantID.ToString ();
-		anim.Play (str);
 		clickCell = true;
-		animPlayed = true;
 		if (alphaChanel [0].activeSelf) {
 			SwapAlphaChannel (0, 1);
 		}
@@ -106,37 +91,38 @@ public class CellManager : MonoBehaviour {
 				greenCells [i].GetComponent<Button> ().interactable = false;
 			}
 		}
-		GameObject.Find ("ControlTower").GetComponent<CTManager> ().mgr.HideMessageBox (0);
+		//GameObject.Find ("ControlTower").GetComponent<CTManager> ().mgr.HideMessageBox (0);
 	}
 	public void SetTheSelectNumber(int num){
 		plantID = num;
 	}
-	string rePlay;
-	public void ResetPos(){
-		if (animPlayed == true) {
-			rePlay = "R" + str;
-			anim.Play (rePlay);
-			animPlayed = false;
+		
+	public void OnSetButtonClick(){
+		p = sliderInfo.GetComponent<Slider> ().value;
+		greenCells [plantID-1].GetComponent<DisplayCellStatus> ().SetPH (p);
+		greenCells [plantID - 1].GetComponent<DisplayCellStatus> ().CloseDisplayPanel ();
+		//GameObject.Find ("ControlTower").GetComponent<CTManager> ().mgr.ShowMessageBox (0);
+		for (int i = 0; i < greenCells.Length; i++) {
+			if (i != (plantID-1)) {
+				greenCells [i].GetComponent<Button> ().interactable = true;
+			}
 		}
 	}
 
-	float p;
-	public void OnSetButtonClick(){
-		p = sliderInfo.GetComponent<Slider> ().value;
-		//Debug.Log (plantID);
-		greenCells [plantID-1].GetComponent<DisplayCellStatus> ().SetPH (p);
-		cameraManager.GetComponent<ControlCamera> ().DefaultCamera ();
-	}
 	public void OnCancelButtonClick(){
-		cameraManager.GetComponent<ControlCamera> ().DefaultCamera ();
+		greenCells [plantID - 1].GetComponent<DisplayCellStatus> ().CloseDisplayPanel ();
+		//GameObject.Find ("ControlTower").GetComponent<CTManager> ().mgr.ShowMessageBox (0);
+		for (int i = 0; i < greenCells.Length; i++) {
+			if (i != (plantID-1)) {
+				greenCells [i].GetComponent<Button> ().interactable = true;
+			}
+		}
 	}
+
 	public void SwapAlphaChannel(int from, int to){
 		if (alphaChanel [from].activeSelf) {
 			alphaChanel [from].SetActive (false);
 			alphaChanel [to].SetActive (true);
 		}
 	}
-
-
-
 }

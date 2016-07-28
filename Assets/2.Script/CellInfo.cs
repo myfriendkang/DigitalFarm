@@ -15,7 +15,7 @@ public class CellInfo {
 			_date = date;
 			_water = water;
 			_ph = ph;
-		_nutrient = nutrient;
+			_nutrient = nutrient;
 			_selected = selected;
 		}
 		public int ID{

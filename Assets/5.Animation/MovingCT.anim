@@ -28,7 +28,7 @@ AnimationClip:
         value: 413
         inSlope: 550.6667
         outSlope: 550.6667
-        tangentMode: 10
+        tangentMode: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -78,7 +78,7 @@ AnimationClip:
         value: 413
         inSlope: 550.6667
         outSlope: 550.6667
-        tangentMode: 10
+        tangentMode: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4

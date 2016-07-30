@@ -24,16 +24,18 @@ public class IslandManager : MonoBehaviour
 	float sTime;
 
 	public GameObject ctWindow;
-	public GameObject messageMgr;
 	public GameObject[] alphaChanel;
 	public MessageManager mgr;
 	public RectTransform ct_OriginalX;
 	bool isMoved = false;
 	float init;
+	bool cellClick;
+
 	void Start ()
 	{
-		originalWindowX = ctWindow.GetComponent<RectTransform>().position.x;
+		originalWindowX = ctWindow.GetComponent<RectTransform> ().position.x;
 		isFloating = true;
+		cellClick = false;
 		isLeft = false;
 		isStart = true;
 		isTrigger = false;
@@ -43,36 +45,37 @@ public class IslandManager : MonoBehaviour
 
 		alphaChanel [0].SetActive (true);
 		alphaChanel [1].SetActive (false);
-		mgr = messageMgr.GetComponent<MessageManager> ();
 		ctWindow.SetActive (false);
 	}
 
 	// Update is called once per frame
 	void Update ()
 	{
-		
-	  if (Input.GetMouseButton (1) && isLeft == true) {
+		if (Input.GetMouseButton (1) && isLeft == true) {
 			isFloating = false;
 			isLeft = false;
 			ResetCoordinateY (2);
 			StartCoroutine ("showBox");
 			MoveBackWindowCT ();
-			/*
-			if (ctWindow.activeSelf) {
-				ctWindow.SetActive (false);
-			}
-			*/
-	
 		} else if (isFloating == true) {
 			DefaultIslandMovement ();
+		} 
+		if (Input.GetMouseButton (1) && cellClick == true) {
+			ScaleForCell (0);
+			SwapAlphaChannel (1, 0);
+			cellClick = false;
 		}
 	}
-	IEnumerator showBox(){
+
+	IEnumerator showBox ()
+	{
 		yield return new WaitForSeconds (1.5f);
 		mgr.ShowMessageBox (0);
 		SwapAlphaChannel (1, 0);
 	}
-	public void OnCTClcik(){
+
+	public void OnCTClcik ()
+	{
 		check = true;
 		if (isMoved == false) {
 			isMoved = true;
@@ -85,27 +88,33 @@ public class IslandManager : MonoBehaviour
 			StartCoroutine ("EndAnimation");
 		}
 	}
-	IEnumerator MoveCTWindowCT(){
+
+	IEnumerator MoveCTWindowCT ()
+	{
 		ctWindow.SetActive (true);
 		yield return new WaitForSeconds (0.5f);
-		iTween.MoveTo (ctWindow, iTween.Hash ("x",ct_OriginalX.position.x ,
+		iTween.MoveTo (ctWindow, iTween.Hash ("x", ct_OriginalX.position.x,
 			"time", 1.5f,
 			"delay", 0.0f,
 			"easeType", iTween.EaseType.easeInOutExpo));
 	}
-	void MoveBackWindowCT(){
-		iTween.MoveTo (ctWindow, iTween.Hash ("x",originalWindowX ,
+
+	void MoveBackWindowCT ()
+	{
+		iTween.MoveTo (ctWindow, iTween.Hash ("x", originalWindowX,
 			"time", 1.5f,
 			"delay", 0.0f,
 			"easeType", iTween.EaseType.easeInOutExpo));
 	}
-	IEnumerator EndAnimation(){
+
+	IEnumerator EndAnimation ()
+	{
 		yield return new WaitForSeconds (1.5f);
-		//ctWindow.SetActive (true);
 		SwapAlphaChannel (0, 1);
 	}
 
-	public void CloseCTWindow(){
+	public void CloseCTWindow ()
+	{
 		MoveBackWindowCT ();
 		MoveCTCenter ();
 		mgr.ShowMessageBox (0);
@@ -113,7 +122,8 @@ public class IslandManager : MonoBehaviour
 		SwapAlphaChannel (1, 0);
 	}
 
-	public void SwapAlphaChannel(int from, int to){
+	public void SwapAlphaChannel (int from, int to)
+	{
 		if (alphaChanel [from].activeSelf) {
 			alphaChanel [from].SetActive (false);
 			alphaChanel [to].SetActive (true);
@@ -123,22 +133,21 @@ public class IslandManager : MonoBehaviour
 
 	void DefaultIslandMovement ()
 	{
-		
-
-		if (check == false) {
-			startTime += Time.time;
-			sTime = Time.time;
-		} else {
-			sTime =Time.time -  startTime + 1.0f;
-		//	sTime = Time.time % startTime - 2.0f;
+		if (cellClick == false) {
+			if (check == false) {
+				startTime += Time.time;
+				sTime = Time.time;
+			} else {
+				sTime = Time.time - startTime + 1.0f;
+				//	sTime = Time.time % startTime - 2.0f;
+			}
+			island.GetComponent<RectTransform> ().position = new Vector3 (island.GetComponent<RectTransform> ().position.x,
+				(originalY + ((float)Math.Sin (sTime * bounceSpeed) * floatStrength)),
+				island.GetComponent<RectTransform> ().position.z);
 		}
-		island.GetComponent<RectTransform> ().position = new Vector3 (island.GetComponent<RectTransform> ().position.x,
-			(originalY + ((float)Math.Sin (sTime * bounceSpeed) * floatStrength)),
-			island.GetComponent<RectTransform> ().position.z);
 	}
 
-
-	void MoveCTLeft ()
+	public void MoveCTLeft ()
 	{
 		iTween.MoveTo (island, iTween.Hash ("x", destination.position.x,
 			"time", 1.5f,
@@ -146,12 +155,11 @@ public class IslandManager : MonoBehaviour
 			"easeType", iTween.EaseType.easeInOutExpo,
 			"oncomplete", "DoFloating",
 			"oncompletetarget", this.gameObject));
-		
 		isMoved = false;
 	}
 
 
-	void MoveCTCenter ()
+	public void MoveCTCenter ()
 	{
 		iTween.MoveTo (island, iTween.Hash ("x", originalX,
 			"time", 1.5f,
@@ -162,16 +170,17 @@ public class IslandManager : MonoBehaviour
 		check = false;
 	}
 
-	void DoFloating ()
+	public  void DoFloating ()
 	{
 		if (isFloating == false) {
 			isFloating = true;
 		}
 	}
 
-	void ResetCoordinateY (int num)
+	public void ResetCoordinateY (int num)
 	{
 		if (num == 1) {
+			
 			iTween.MoveTo (island, iTween.Hash ("y", originalY,
 				"time", .5f,
 				"delay", 0.0f,
@@ -186,6 +195,67 @@ public class IslandManager : MonoBehaviour
 				"oncomplete", "MoveCTCenter",
 				"oncompletetarget", this.gameObject));
 		}
+	}
+	public void ScaleForCell(int i){
+		cellClick = true;
+		if (i != 0) {
+			mgr.HideMessageBox (0);
+		}
+		switch (i) {
+		case 0:
+			iTween.MoveTo (island, iTween.Hash ("x", originalX,"y",originalY,
+				"time", .5f,
+				"easeType", iTween.EaseType.easeInOutSine,
+				"oncomplete", "TimeToRest",
+				"oncompletetarget", this.gameObject));
+
+			break;
+
+		case 1:
+			iTween.MoveTo (island, iTween.Hash ("x", 500,
+				"time", .5f,
+				"easeType", iTween.EaseType.easeInOutSine,
+				"oncomplete", "TimeToScale",
+				"oncompletetarget", this.gameObject));
+			break;
+		case 2:
+			iTween.MoveTo (island, iTween.Hash ("x", 60,"y",-200,
+				"time", .5f,
+				"easeType", iTween.EaseType.easeInOutSine,
+				"oncomplete", "TimeToScale",
+				"oncompletetarget", this.gameObject));
+			break;
+		case 3:
+			iTween.MoveTo (island, iTween.Hash ("x", 395,"y",-280,
+				"time", .5f,
+				"easeType", iTween.EaseType.easeInOutSine,
+				"oncomplete", "TimeToScale",
+				"oncompletetarget", this.gameObject));
+			break;
+		case 4:
+			iTween.MoveTo (island, iTween.Hash ("x", 180,"y",10,
+				"time", .5f,
+				"easeType", iTween.EaseType.easeInOutSine,
+				"oncomplete", "TimeToScale",
+				"oncompletetarget", this.gameObject));
+			break;
+		case 5:
+			iTween.MoveTo (island, iTween.Hash ("x", 530,"y",-160,
+				"time", .5f,
+				"easeType", iTween.EaseType.easeInOutSine,
+				"oncomplete", "TimeToScale",
+				"oncompletetarget", this.gameObject));
+			break;
+		}
+	
+	}
+	void TimeToScale(){
+		iTween.ScaleTo (island, new Vector3 (2f, 2f, 2f), 3f);
+
+	}
+	void TimeToRest(){
+		iTween.ScaleTo (island, new Vector3 (1f, 1f, 1f), 1.5f);
+		mgr.ShowMessageBox (0);
 	}
 
 

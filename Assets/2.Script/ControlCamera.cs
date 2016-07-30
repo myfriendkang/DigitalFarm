@@ -32,12 +32,6 @@ public class ControlCamera : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetMouseButtonDown (1)) {
-			DefaultCameraPos ();
-			if (displayInfo.activeSelf) {
-				displayInfo.SetActive (false);
-			}
-		}
 		
 	}
 	public void DefaultCamera(){

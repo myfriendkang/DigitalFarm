@@ -17,11 +17,8 @@ public class IslandManager : MonoBehaviour
 	private bool isLeft;
 	private float speedValue;
 	bool isStart;
-	float startTime;
-	float elapsedTime;
 	bool isTrigger;
-	bool check;
-	float sTime;
+
 
 	public GameObject ctWindow;
 	public GameObject[] alphaChanel;
@@ -41,7 +38,6 @@ public class IslandManager : MonoBehaviour
 		isTrigger = false;
 		originalY = island.GetComponent<RectTransform> ().position.y;
 		originalX = island.GetComponent<RectTransform> ().position.x;
-		check = false;
 
 		alphaChanel [0].SetActive (true);
 		alphaChanel [1].SetActive (false);
@@ -54,7 +50,7 @@ public class IslandManager : MonoBehaviour
 		if (Input.GetMouseButton (1) && isLeft == true) {
 			isFloating = false;
 			isLeft = false;
-			ResetCoordinateY (2);
+			//ResetCoordinateY (2);
 			StartCoroutine ("showBox");
 			MoveBackWindowCT ();
 		} else if (isFloating == true) {
@@ -66,6 +62,90 @@ public class IslandManager : MonoBehaviour
 			cellClick = false;
 		}
 	}
+	public float smoothTime = 0.5F;
+	private Vector3 velocity = Vector3.zero;
+	void DefaultIslandMovement ()
+	{/*
+		float crurentPos = ((float)Math.Sin (Time.time * bounceSpeed));
+		Debug.Log (crurentPos);
+		if (cellClick == false && crurentPos ==0 ) {
+			island.GetComponent<RectTransform> ().position = new Vector3 (island.GetComponent<RectTransform> ().position.x,
+				(originalY + ((float)Math.Sin (Time.time * bounceSpeed) * floatStrength)),
+				island.GetComponent<RectTransform> ().position.z);
+		} else {
+			do {
+				island.GetComponent<RectTransform> ().position = new Vector3 (island.GetComponent<RectTransform> ().position.x,
+					(originalY + ((float)Math.Sin (Time.time * bounceSpeed) * floatStrength)),
+					island.GetComponent<RectTransform> ().position.z);
+			} while(crurentPos == 0);
+		}
+		*/
+		float crurentPos = ((float)Math.Sin (Time.time * bounceSpeed));
+		if (cellClick == false) {
+			Debug.Log("before = " + (float)Math.Sin (Time.time * bounceSpeed) * floatStrength);
+			island.GetComponent<RectTransform> ().position = new Vector3 (island.GetComponent<RectTransform> ().position.x,
+				(originalY + ((float)Math.Sin (Time.time * bounceSpeed) * floatStrength)),
+				island.GetComponent<RectTransform> ().position.z);
+		} 
+		if (cellClick == true) {
+			
+			Vector3 resetPos = new Vector3 (island.GetComponent<RectTransform> ().position.x, originalY, island.GetComponent<RectTransform> ().position.z); 
+			if( island.GetComponent<RectTransform> ().position.y != originalY) {
+				Debug.Log ("dfasdfasd");
+				island.GetComponent<RectTransform> ().position = Vector3.SmoothDamp (island.GetComponent<RectTransform> ().position, resetPos, ref velocity, smoothTime);
+			} 
+		}
+
+	}
+	public void OnCTClcik ()
+	{
+		if (isMoved == false) {
+			isMoved = true;
+			isLeft = true;
+			cellClick = true;
+			//ResetCoordinateY (1);
+			MoveCTLeft();
+			mgr.HideMessageBox (0);
+			StartCoroutine ("MoveCTWindowCT");
+
+			isStart = false;
+			StartCoroutine ("EndAnimation");
+		}
+	}
+
+	public void MoveCTLeft ()
+	{
+		iTween.MoveTo (island, iTween.Hash ("x", destination.position.x,
+			"time", 1.5f,
+			"delay", 0.0f,
+			"easeType", iTween.EaseType.easeInOutExpo,
+			"oncomplete", "DoFloating",
+			"oncompletetarget", this.gameObject));
+		isMoved = false;
+
+	}
+
+
+	public void MoveCTCenter ()
+	{
+		iTween.MoveTo (island, iTween.Hash ("x", originalX,
+			"time", 1.5f,
+			"delay", 0.0f,
+			"easeType", iTween.EaseType.easeInOutExpo,
+			"oncomplete", "DoFloating",
+			"oncompletetarget", this.gameObject));
+
+
+	}
+
+	public  void DoFloating ()
+	{
+		if (isFloating == false) {
+			cellClick = false;
+			isFloating = true;
+		}
+	}
+
 
 	IEnumerator showBox ()
 	{
@@ -74,20 +154,6 @@ public class IslandManager : MonoBehaviour
 		SwapAlphaChannel (1, 0);
 	}
 
-	public void OnCTClcik ()
-	{
-		check = true;
-		if (isMoved == false) {
-			isMoved = true;
-			isLeft = true;
-			ResetCoordinateY (1);
-			mgr.HideMessageBox (0);
-			StartCoroutine ("MoveCTWindowCT");
-	
-			isStart = false;
-			StartCoroutine ("EndAnimation");
-		}
-	}
 
 	IEnumerator MoveCTWindowCT ()
 	{
@@ -127,53 +193,6 @@ public class IslandManager : MonoBehaviour
 		if (alphaChanel [from].activeSelf) {
 			alphaChanel [from].SetActive (false);
 			alphaChanel [to].SetActive (true);
-		}
-	}
-
-
-	void DefaultIslandMovement ()
-	{
-		if (cellClick == false) {
-			if (check == false) {
-				startTime += Time.time;
-				sTime = Time.time;
-			} else {
-				sTime = Time.time - startTime + 1.0f;
-				//	sTime = Time.time % startTime - 2.0f;
-			}
-			island.GetComponent<RectTransform> ().position = new Vector3 (island.GetComponent<RectTransform> ().position.x,
-				(originalY + ((float)Math.Sin (sTime * bounceSpeed) * floatStrength)),
-				island.GetComponent<RectTransform> ().position.z);
-		}
-	}
-
-	public void MoveCTLeft ()
-	{
-		iTween.MoveTo (island, iTween.Hash ("x", destination.position.x,
-			"time", 1.5f,
-			"delay", 0.0f,
-			"easeType", iTween.EaseType.easeInOutExpo,
-			"oncomplete", "DoFloating",
-			"oncompletetarget", this.gameObject));
-		isMoved = false;
-	}
-
-
-	public void MoveCTCenter ()
-	{
-		iTween.MoveTo (island, iTween.Hash ("x", originalX,
-			"time", 1.5f,
-			"delay", 0.0f,
-			"easeType", iTween.EaseType.easeInOutExpo,
-			"oncomplete", "DoFloating",
-			"oncompletetarget", this.gameObject));
-		check = false;
-	}
-
-	public  void DoFloating ()
-	{
-		if (isFloating == false) {
-			isFloating = true;
 		}
 	}
 

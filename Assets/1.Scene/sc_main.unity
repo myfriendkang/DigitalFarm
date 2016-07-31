@@ -2140,7 +2140,7 @@ RectTransform:
   m_RootOrder: 4
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 638, y: -183}
+  m_AnchoredPosition: {x: 1228, y: 243}
   m_SizeDelta: {x: 836, y: 405}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &540227219
@@ -4662,7 +4662,7 @@ GameObject:
   - 224: {fileID: 1096764883}
   - 222: {fileID: 1096764885}
   - 114: {fileID: 1096764884}
-  - 95: {fileID: 1096764886}
+  - 114: {fileID: 1096764886}
   m_Layer: 5
   m_Name: Cloud1
   m_TagString: Untagged
@@ -4721,23 +4721,21 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1096764882}
---- !u!95 &1096764886
-Animator:
-  serializedVersion: 3
+--- !u!114 &1096764886
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1096764882}
-  m_Enabled: 0
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 92a159c794f6d41c99e728f70ca4b193, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c347d222a3f4480fb83d1156309f988, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 540227218}
+  rocketTurnSpeed: 90
+  rocketSpeed: 10
+  turbulence: 10
 --- !u!1 &1142802787
 GameObject:
   m_ObjectHideFlags: 0
@@ -5964,7 +5962,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1691485332}
-  - 114: {fileID: 1691485333}
   m_Layer: 0
   m_Name: CloudControl
   m_TagString: Untagged
@@ -5985,21 +5982,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 6
---- !u!114 &1691485333
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1691485331}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c347d222a3f4480fb83d1156309f988, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  clouds:
-  - {fileID: 1096764882}
-  - {fileID: 1826415553}
-  - {fileID: 540227217}
 --- !u!1 &1712644899
 GameObject:
   m_ObjectHideFlags: 0

@@ -22,6 +22,7 @@ public class CellManager : MonoBehaviour {
 	public GameObject   islandMgr;
 	public GameObject   displayInfo;
 	public GameObject   islandManager;
+	public GameObject profile;
 	float originalX;
 
 	public bool selectCell = false;  // for Camera Movement;
@@ -34,7 +35,9 @@ public class CellManager : MonoBehaviour {
 	float p;
 	string str;
 
-
+	public Sprite[] plantImage;
+	public Text platName;
+	public GameObject imageObj;
 	void Awake(){
 		originalX = displayInfo.GetComponent<RectTransform> ().position.x;
 	    //CellInfo(int id, string name, string date, int water, float ph, int ingredient, bool selected)
@@ -63,13 +66,18 @@ public class CellManager : MonoBehaviour {
 				ctButton.GetComponent<Button> ().interactable = true;
 			}
 			if (selectCell == true) {
+				StartCoroutine ("ShowProfile");
+				islandManager.GetComponent<IslandManager> ().ScaleForCell (0);
+				islandManager.GetComponent<IslandManager> ().cellClick = false;
 				for (int i = 0; i < greenCells.Length; i++) {
 					if (i != (plantID-1)) {
 						greenCells [i].GetComponent<Button> ().interactable = true;
 					}
+
 				}
 				selectCell = false;
 			}
+			SwapAlphaChannel (1, 0);
 		}
 	}
 
@@ -84,8 +92,12 @@ public class CellManager : MonoBehaviour {
 		if (alphaChanel [0].activeSelf) {
 			SwapAlphaChannel (0, 1);
 		}
+		StartCoroutine ("HideProfile");
 		_greenCellSelected = greenCells[plantID-1];
+		SetIamge (plantID-1);
+		SetName (plantID - 1);
 		islandMgr.GetComponent<IslandManager> ().ScaleForCell (plantID); 
+		islandMgr.GetComponent<IslandManager> ().cellClick = true;
 		ctButton.GetComponent<Button> ().interactable = false;
 		if (selectCell == false) {
 			selectCell = true;
@@ -95,6 +107,37 @@ public class CellManager : MonoBehaviour {
 				greenCells [i].GetComponent<Button> ().interactable = false;
 			}
 		}
+	}
+	void SetName(int i){
+		switch (i) {
+		case 0:
+			platName.text = "AURORA";
+			break;
+		case 1:
+			platName.text = "BRANDON";
+			break;
+		case 2:
+			platName.text = "APRIL";
+			break;
+		case 3:
+			platName.text = "FLELIX";
+			break;
+		case 4:
+			platName.text = "JEREMY";
+			break;
+
+		}
+	}
+	void SetIamge(int i){
+		imageObj.GetComponent<Image> ().sprite = plantImage [i];
+	}
+	IEnumerator ShowProfile(){
+		yield return new WaitForSeconds (0.6f);
+		profile.SetActive (true);
+	}
+	IEnumerator HideProfile(){
+		yield return new WaitForSeconds (0.1f);
+		profile.SetActive (false);
 	}
 	void FocusCell(int i){
 		islandMgr.GetComponent<IslandManager> ().ScaleForCell (i);
@@ -138,8 +181,10 @@ public class CellManager : MonoBehaviour {
 		greenCells [plantID - 1].GetComponent<DisplayCellStatus> ().ShowDefault ();
 		greenCells [plantID - 1].GetComponent<DisplayCellStatus> ().cellClicked = false;
 		ResetAnimation ();
+		StartCoroutine ("ShowProfile");
 		ctButton.GetComponent<Button> ().interactable = true;
 		islandManager.GetComponent<IslandManager> ().ScaleForCell (0);
+		islandManager.GetComponent<IslandManager> ().cellClick = false;
 		for (int i = 0; i < greenCells.Length; i++) {
 			if (i != (plantID-1)) {
 				greenCells [i].GetComponent<Button> ().interactable = true;

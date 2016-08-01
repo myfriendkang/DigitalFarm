@@ -82,7 +82,7 @@ public class DisplayCellStatus : MonoBehaviour {
 	public void ShowOutline(){
 		this.gameObject.GetComponent<Image> ().sprite = images [1];
 		messageCtrl.GetComponent<MessageManager> ().ShowMessageEachCell (id);
-		messageCtrl.GetComponent<MessageManager> ().DoPingpongAnimation (1);
+		//messageCtrl.GetComponent<MessageManager> ().DoPingpongAnimation (1);
 	}
 
 	public void ShowSelected(){

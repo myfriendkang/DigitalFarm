@@ -40,5 +40,4 @@ public class MessageManager : MonoBehaviour {
 			ShowMessageBox (1);
 		}
 	}
-
 }   

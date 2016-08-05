@@ -49,12 +49,10 @@ public class DisplayCellStatus : MonoBehaviour {
 	}
 
 	void Update(){
-		
 		if (Input.GetMouseButtonDown (1) && cellClicked==true ) {
 			ResetAnimation ();
 			ShowDefault ();
 			ctButton.GetComponent<Button> ().interactable = true;
-
 		}
 		if (cellClicked) {
 			ShowOutline ();
@@ -73,7 +71,9 @@ public class DisplayCellStatus : MonoBehaviour {
 	public void SetText(string _s){
 		text = _s;
 	}
-
+	public void SetWater(int _w){
+		water = _w;
+	}
 	public void ShowDefault(){
 		this.gameObject.GetComponent<Image> ().sprite = images [0];
 		messageCtrl.GetComponent<MessageManager> ().HideMessageBox (1);
@@ -82,7 +82,6 @@ public class DisplayCellStatus : MonoBehaviour {
 	public void ShowOutline(){
 		this.gameObject.GetComponent<Image> ().sprite = images [1];
 		messageCtrl.GetComponent<MessageManager> ().ShowMessageEachCell (id);
-		//messageCtrl.GetComponent<MessageManager> ().DoPingpongAnimation (1);
 	}
 
 	public void ShowSelected(){
@@ -94,8 +93,8 @@ public class DisplayCellStatus : MonoBehaviour {
 		cellManager.GetComponent<CellManager> ().SetTheSelectNumber (id);
 		ShowPlantInfoDisplay ();
 		DisplayAnimation ();
-
 	}
+
 	void DisplayAnimation(){
 		cellClicked = true;
 		iTween.MoveTo (displayInfo [0], iTween.Hash ("x", displayDestinationX.position.x,
@@ -109,19 +108,13 @@ public class DisplayCellStatus : MonoBehaviour {
 				"time", 1.0f,
 				"delay", 0.0f,
 				"easeType", iTween.EaseType.easeOutExpo));
-
 			cellClicked = false;
 		}
 	}
+
 	void ShowStatus(){
-		//displayStatus [0].text = "Water : " + ""//water.ToString ();
 		displayStatus [0].text = nutrient.ToString ();
 		displayStatus [1].text = ph.ToString ("f1");
-		//displayStatus [2].text = height.ToString ("f1");
-		//displayStatus [3].text = leaves.ToString ();
-		//displayStatus [4].text = text;
-
-
 	}
 
 	public void CloseDisplayPanel(){
@@ -140,7 +133,5 @@ public class DisplayCellStatus : MonoBehaviour {
 			displayInfo [to].SetActive (true);
 		}
 	}
-
-
 }
 

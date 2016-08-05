@@ -5,7 +5,6 @@ using System.Collections;
 
 public class IslandManager : MonoBehaviour
 {
-
 	public GameObject island;
 	public RectTransform destination;
 	public float floatStrength = 10;
@@ -30,7 +29,6 @@ public class IslandManager : MonoBehaviour
 	public RectTransform ct_OriginalX;
 	public GameObject cManager;
 	public GameObject profile;
-
 	float startTime;
 	float tTime;
 	bool isReseted ;
@@ -62,40 +60,24 @@ public class IslandManager : MonoBehaviour
 				cManager.GetComponent<CellManager> ().greenCells [i].GetComponent<Button> ().interactable = false;
 			}
 		}
-		else{
-			for (int i = 0; i <= 4; i++) {
-				cManager.GetComponent<CellManager> ().greenCells [i].GetComponent<Button> ().interactable = true;
-			}
-		}
 
 		if (Input.GetMouseButton (1) && isLeft == true) {
-
 			ctClicked = false; 
 			isLeft = false;
 			isLeftStop = true;
 			resetTpostCT ();
-			
-			//ResetCoordinateY (2);
 			StartCoroutine ("showBox");
 			MoveBackWindowCT ();
-
 		}
-		/*if (Input.GetMouseButton (1 ) && cellClick == true) {
-			Debug.Log ("what");
-			ScaleForCell (0);
-			SwapAlphaChannel (1, 0);
-			cellClick = false;
-		}
-		*/
 		if (cellClick == false) {
 			if (startLeftfloating) {
-
 				LeftFloating ();
 			} else {
 				CenterFloating ();
 			}
 		}
 	}
+
 	void CenterFloating ()
 	{
 		if (stop == false) {
@@ -105,7 +87,6 @@ public class IslandManager : MonoBehaviour
 				island.GetComponent<RectTransform> ().position.z);
 		}
 	}
-
 
 	void LeftFloating(){
 		if (isLeftStop == false) {
@@ -119,7 +100,6 @@ public class IslandManager : MonoBehaviour
 	public void OnCTClcik ()
 	{
 		if (isMoved == false) {
-			
 			isMoved = true;
 			isLeft = true;
 			stop = true;
@@ -140,10 +120,7 @@ public class IslandManager : MonoBehaviour
 			"oncomplete", "FlagForTransition",
 			"oncompletetarget", this.gameObject));
 		isMoved = false;
-
-
 	}
-
 
 	public void MoveCTCenter ()
 	{
@@ -153,24 +130,26 @@ public class IslandManager : MonoBehaviour
 			"easeType", iTween.EaseType.easeInOutExpo,
 			"oncomplete", "FlagForCT",
 			"oncompletetarget", this.gameObject));
-
 		StartCoroutine ("ShowProfile");
-
 	}
+
 	IEnumerator ShowProfile(){
 		yield return new WaitForSeconds (0.8f);
 		profile.SetActive (true);
 	}
+
 	void FlagForTransition(){
 		tTime = 0;
 		isLeftStop = false;
 		startLeftfloating = true;
 	}
+
 	void FlagForCT(){
 		startTime = 0;
 		stop = false;
 		startLeftfloating = false;
 	}
+
 	void resetTpostCT(){
 		iTween.MoveTo (island, iTween.Hash ("y",originalY,
 			"time", 0.5f,
@@ -187,7 +166,6 @@ public class IslandManager : MonoBehaviour
 			"easeType", iTween.EaseType.easeInOutBack,
 			"oncomplete", "MoveCTLeft",
 			"oncompletetarget", this.gameObject));
-		
 	}
 
 	IEnumerator showBox ()
@@ -224,16 +202,13 @@ public class IslandManager : MonoBehaviour
 	public void CloseCTWindow ()
 	{
 		resetTpostCT ();
-		//tartCoroutine ("What");
 		MoveBackWindowCT ();
 		for (int i = 0; i <= 4; i++) {
 			cManager.GetComponent<CellManager> ().greenCells [i].GetComponent<Button> ().interactable = true;
 		}
 		ctClicked = false;
 		mgr.ShowMessageBox (0);
-	
 		SwapAlphaChannel (1, 0);
-
 	}
 	
 	public void SwapAlphaChannel (int from, int to)
@@ -295,19 +270,19 @@ public class IslandManager : MonoBehaviour
 				break;
 			}
 	}
+
 	void TimeToScale(){
 		iTween.ScaleTo (island,iTween.Hash("scale", new Vector3 (2f, 2f, 2f),"time",.5f,
 			"easeType", iTween.EaseType.linear));
-
 	}
+
 	void StopItween(){
 		iTween.Stop ();
 	}
+
 	void TimeToRest(){
 		iTween.ScaleTo (island, iTween.Hash("scale", new Vector3 (1f, 1f, 1f),"time",.5f,
 			"easeType", iTween.EaseType.linear));
 		mgr.ShowMessageBox (0);
 	}
-
-
 }

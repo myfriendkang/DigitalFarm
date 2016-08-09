@@ -30,7 +30,6 @@ public class PHControl : MonoBehaviour
 			phRadian = (360 * phRadian) / phMax;
 			if (point.GetComponent<RectTransform> ().eulerAngles.z >= 360 - phRadian) {
 				point.GetComponent<RectTransform> ().Rotate (Vector3.back * 5);
-				Debug.Log (point.GetComponent<RectTransform> ().eulerAngles.z);
 			}
 
 		} else {

@@ -51,7 +51,9 @@ public class CellInfo
 		get { return _name; }
 		set { _name = value; }
 	}
-
+	public string GetText(){
+		return _text;
+	}
 	public string Date {
 		get { return _date; }
 		set { _date = value; }

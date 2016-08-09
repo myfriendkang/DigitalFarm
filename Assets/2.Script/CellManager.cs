@@ -46,17 +46,17 @@ public class CellManager : MonoBehaviour {
 		originalX = displayInfo.GetComponent<RectTransform> ().position.x;
 	    //CellInfo(int id, string name, string date, int water, float ph, int ingredient, bool selected)
 		if (greenCells[0].GetComponent<DisplayCellStatus>().ph==0) {
-			cells [0] = new CellInfo (1,  "First",  "07.12.2016", 12,  3.4f,  10,  10.0f, 2, "", false);
-			cells [1] = new CellInfo (2, "Second",  "07.21.2016",  1,  1.0f,   3,  20.0f, 4, "", false);
-			cells [2] = new CellInfo (3,  "Thrid",  "07.14.2016",  0,  6.7f,  12,  30.0f, 2, "", false);
-			cells [3] = new CellInfo (4, "Fourth",  "07.15.2016", 14,  9.0f,   1,  40.0f, 3, "", false);
-			cells [4] = new CellInfo (5,  "Fifth",  "07.04.2016", 31, 13.5f,  43,  50.0f, 2, "", false);
+			cells [0] = new CellInfo (1,  "AURORA",  "07.12.2016", 12,  3.4f,  10,  10.0f, 2, "First Day.", false);
+			cells [1] = new CellInfo (2, "BRANDON",  "07.21.2016",  1,  1.0f,   3,  20.0f, 4, "Second Day", false);
+			cells [2] = new CellInfo (3,  "APRIL",  "07.14.2016",  0,  6.7f,  12,  30.0f, 2, "Third Day", false);
+			cells [3] = new CellInfo (4, "FLELIX",  "07.15.2016", 14,  9.0f,   1,  40.0f, 3, "Fourth Day", false);
+			cells [4] = new CellInfo (5,  "JEREMY",  "07.04.2016", 31, 13.5f,  43,  50.0f, 2, "Fifth Day", false);
 		} else {
-			cells [0] = new CellInfo (1,  "First", "07.12.2016", 90,  greenCells[0].GetComponent<DisplayCellStatus>().ph, 10,  3.0f, 12, "", false);
-			cells [1] = new CellInfo (2, "Second", "07.21.2016",  120,  greenCells[1].GetComponent<DisplayCellStatus>().ph,  3,  2.0f,  3, "", false);
-			cells [2] = new CellInfo (3,  "Thrid", "07.14.2016",  73,  greenCells[2].GetComponent<DisplayCellStatus>().ph, 12,  1.0f,  3, "", false);
-			cells [3] = new CellInfo (4, "Fourth", "07.15.2016",  220, greenCells[3].GetComponent<DisplayCellStatus>().ph,  1, 30.0f,  3, "", false);
-			cells [4] = new CellInfo (5,  "Fifth", "07.04.2016",  295, greenCells[4].GetComponent<DisplayCellStatus>().ph, 43, 40.0f,  2, "", false);
+			cells [0] = new CellInfo (1,  "AURORA", "07.12.2016", 90,  greenCells[0].GetComponent<DisplayCellStatus>().ph, 10,  3.0f, 12, "First Day.", false);
+			cells [1] = new CellInfo (2, "BRANDON", "07.21.2016",  120,  greenCells[1].GetComponent<DisplayCellStatus>().ph,  3,  2.0f,  3, "Second Day", false);
+			cells [2] = new CellInfo (3,  "APRIL", "07.14.2016",  73,  greenCells[2].GetComponent<DisplayCellStatus>().ph, 12,  1.0f,  3, "Third Day", false);
+			cells [3] = new CellInfo (4, "FLELIX", "07.15.2016",  220, greenCells[3].GetComponent<DisplayCellStatus>().ph,  1, 30.0f,  3, "Fourth Day", false);
+			cells [4] = new CellInfo (5,  "JEREMY", "07.04.2016",  295, greenCells[4].GetComponent<DisplayCellStatus>().ph, 43, 40.0f,  2, "Fifth Day", false);
 		}
 		for (int i = 0; i <= 4; i++) {
 			greenCells [i].GetComponent<DisplayCellStatus> ().SetData (cells [i].Name, cells [i].Date, cells [i].ID, cells [i].Water, cells [i].Ingredient, cells [i].PH, cells [i].Height ,cells [i].Leaves,cells [i].Text,cells [i].Select);
@@ -69,6 +69,7 @@ public class CellManager : MonoBehaviour {
 				ctButton.GetComponent<Button> ().interactable = true;
 			}
 			if (selectCell == true) {
+				GameObject.Find ("UIInput").GetComponent<UIMemo> ().RemoveSelectedCell ();
 				StartCoroutine ("ShowProfile");
 				waterScript.GetComponent<WaterControl> ().coolingDown = false;
 				phScript.GetComponent<PHControl> ().coolingDown = false;
@@ -96,6 +97,7 @@ public class CellManager : MonoBehaviour {
 		StartCoroutine ("WaterAnimation");
 		StartCoroutine ("PHAnimation");
 		_greenCellSelected = greenCells[plantID-1];
+		GameObject.Find ("UIInput").GetComponent<UIMemo> ().GetSelectedCell (_greenCellSelected);
 		SetIamge (plantID-1);
 		SetName (plantID - 1);
 		islandMgr.GetComponent<IslandManager> ().ScaleForCell (plantID); 
@@ -145,6 +147,8 @@ public class CellManager : MonoBehaviour {
 		imageObj.GetComponent<Image> ().sprite = plantImage [i];
 	}
 
+
+
 	IEnumerator ShowProfile(){
 		yield return new WaitForSeconds (0.6f);
 		profile.SetActive (true);
@@ -180,7 +184,11 @@ public class CellManager : MonoBehaviour {
 	}
 
 	public void SaveButtonClick(){
-		greenCells [plantID-1].GetComponent<DisplayCellStatus> ().SetHeight (height);
+		string temp = GameObject.Find ("UIInput").GetComponent<UIMemo> ().memoInputField.text;
+		text = temp;
+		GameObject.Find ("UIInput").GetComponent<UIMemo> ().RemoveSelectedCell ();
+		greenCells [plantID - 1].GetComponent<DisplayCellStatus> ().isSelected = false;
+		greenCells [plantID - 1].GetComponent<DisplayCellStatus> ().SetHeight (height);
 		greenCells [plantID - 1].GetComponent<DisplayCellStatus> ().SetLeaves (leaves);
 		greenCells [plantID - 1].GetComponent<DisplayCellStatus> ().SetText (text);
 		greenCells [plantID - 1].GetComponent<DisplayCellStatus> ().ShowDefault ();

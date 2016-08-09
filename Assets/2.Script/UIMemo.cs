@@ -12,13 +12,25 @@ public class UIMemo : MonoBehaviour {
 	int maxWordCount = 50;
 	int wordsCount = 0;
 	int num=0 ;
+	private GameObject selectedObj;
+	public Text textField;
+	bool shown;
 	// Use this for initialization
 	void Start () {
-		
+		selectedObj = null;
+		shown = false;
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		if (gameObject.activeSelf) {
+			if (selectedObj != null && shown ==false) {
+				string text = selectedObj.GetComponent<DisplayCellStatus> ().GetText ();
+				Debug.Log (text);
+				memoInputField.text = selectedObj.GetComponent<DisplayCellStatus> ().GetText ();
+				shown = true;
+			}
+		}
 
 	}
 
@@ -31,5 +43,12 @@ public class UIMemo : MonoBehaviour {
 			num = maxWordCount - wordsCount;
 			wordsNum.text = num.ToString ();
 		}
+	}
+	public void GetSelectedCell(GameObject obj){
+		selectedObj = obj;
+	}
+	public void RemoveSelectedCell(){
+		selectedObj = null;
+		shown = false;
 	}
 }

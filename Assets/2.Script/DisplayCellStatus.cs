@@ -26,6 +26,7 @@ public class DisplayCellStatus : MonoBehaviour {
 	public bool cellClicked;
 	private MessageManager mgrBox;
 	public GameObject ctButton;
+	public  bool isSelected;
 
 	public void SetData(string _strName, string _strDate, int _numID, int _numWater, int _numNutrient, float _fPH, float _height, int _leaves, string _text ,bool _boolSelect){
 		name = _strName;
@@ -41,6 +42,7 @@ public class DisplayCellStatus : MonoBehaviour {
 	}
 
 	void Start(){
+		isSelected = false;
 		mgrBox = messageCtrl.GetComponent<MessageManager> ();
 		cellClicked = false;
 		originalX = displayInfo [0].GetComponent<RectTransform> ().position.x;
@@ -53,6 +55,7 @@ public class DisplayCellStatus : MonoBehaviour {
 			ResetAnimation ();
 			ShowDefault ();
 			ctButton.GetComponent<Button> ().interactable = true;
+			isSelected = false;
 		}
 		if (cellClicked) {
 			ShowOutline ();
@@ -74,21 +77,30 @@ public class DisplayCellStatus : MonoBehaviour {
 	public void SetWater(int _w){
 		water = _w;
 	}
+	public string GetText(){
+		return text;
+	}
 	public void ShowDefault(){
 		this.gameObject.GetComponent<Image> ().sprite = images [0];
 		messageCtrl.GetComponent<MessageManager> ().HideMessageBox (1);
 	}
 
 	public void ShowOutline(){
-		this.gameObject.GetComponent<Image> ().sprite = images [1];
+		if (isSelected == false) {
+			this.gameObject.GetComponent<Image> ().sprite = images [1];
+		} else {
+			this.gameObject.GetComponent<Image> ().sprite = images [2];
+		}
 		messageCtrl.GetComponent<MessageManager> ().ShowMessageEachCell (id);
 	}
 
 	public void ShowSelected(){
 		this.gameObject.GetComponent<Image> ().sprite = images [2];
+		isSelected = true;
 	}
 
 	public void OnPlantClicked(){
+
 		ShowStatus ();
 		cellManager.GetComponent<CellManager> ().SetTheSelectNumber (id);
 		ShowPlantInfoDisplay ();
